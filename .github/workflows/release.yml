@@ -1,0 +1,47 @@
+name: Build and Release libcue
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        goos: [linux, darwin, windows]
+        goarch: [amd64, arm64]
+
+    uses: ./.github/workflows/build-shared.yml
+    with:
+      goos: ${{ matrix.goos }}
+      goarch: ${{ matrix.goarch }}
+
+  package:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: ./dist
+
+      - name: Package artifacts
+        run: |
+          cd dist
+          for f in libcue-*.*; do
+            base="${f%.*}"
+            ext="${f##*.}"
+
+            if [[ "$ext" == "dll" ]]; then
+              zip "${base}.zip" "$f" ../cue.h
+              sha256sum "${base}.zip" > "${base}.zip.sha256"
+            else
+              tar -czf "${base}.tar.gz" "$f" ../cue.h
+              sha256sum "${base}.tar.gz" > "${base}.tar.gz.sha256"
+            fi
+          done
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
