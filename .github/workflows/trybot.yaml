@@ -1,14 +1,10 @@
 # Code generated internal/ci/ci_tool.cue; DO NOT EDIT.
 
 name: TryBot
-"on": {}
-#  push:
-#    branches:
-#      - ci/test
-#      - main
-#  pull_request: {}
-#  schedule:
-#    - cron: 0 2 * * *
+on:
+  push:
+    branches:
+      - 'never-trigger-upstream-workflow'
   workflow_dispatch: {}
 jobs:
   test:
