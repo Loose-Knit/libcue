@@ -1,7 +1,7 @@
 # Code generated internal/ci/ci_tool.cue; DO NOT EDIT.
 
 name: Dispatch trybot
-"on":
+"on": {}
 #  repository_dispatch: {}
 #  push:
 #    branches:
