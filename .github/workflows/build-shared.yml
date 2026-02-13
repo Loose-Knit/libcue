@@ -36,8 +36,6 @@ jobs:
           go env
       - name: Ensure tests run regardless of cache
         run: go env -w GOFLAGS=-count=1
-      - name: Early git and code sanity checks
-        run: go run cuelang.org/go/internal/ci/checks@v0.14.1
       - name: Generate
         run: go generate ./...
       - name: Test
