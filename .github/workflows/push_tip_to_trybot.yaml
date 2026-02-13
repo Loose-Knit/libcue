@@ -1,10 +1,10 @@
 # Code generated internal/ci/ci_tool.cue; DO NOT EDIT.
 
 name: Push tip to trybot
-"on":
-  push:
-    branches:
-      - main
+#"on":
+#  push:
+#    branches:
+#      - main
 concurrency: push_tip_to_trybot
 jobs:
   push:
